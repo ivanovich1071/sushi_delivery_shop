@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>СушиShop</h1>
+    <h2>Популярные товары</h2>
+    <div class="products">
+        {% for product in popular_products %}
+        <div class="product">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>{{ product.price }} ₽</p>
+            <ul>
+                {% for line in product.description.split('\n') %}
+                <li>{{ line }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endfor %}
+    </div>
+    <a href="{% url 'product_list' %}" class="btn btn-primary">В каталог</a>
+</div>
+{% endblock %}
