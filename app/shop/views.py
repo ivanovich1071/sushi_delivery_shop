@@ -2,14 +2,13 @@ from django.shortcuts import render
 from shop.models import Product
 
 def index(request):
-    # Получаем популярные товары, отсортированные по убыванию цены
-    popular_products = Product.objects.filter(is_popular=True).order_by('-price')[:4]  # Отображаем только 4 товара
+    popular_products = Product.objects.filter(is_popular=True).order_by('-price')[:4]
+    for product in popular_products:
+        product.description_lines = product.description.split('\n')  # Разбиваем описание на строки
     context = {
-        'title': 'Доставка суши SusiShop',
-        'popular_products': popular_products,  # Добавляем популярные товары в контекст
+        'popular_products': popular_products,
     }
-    return render(request, 'index.html', context)
-
+    return render(request, 'shop/index.html', context)
 from django.views.generic import ListView, DetailView
 
 class ProductListView(ListView):
