@@ -1,24 +1,43 @@
 {% extends 'base.html' %}
 
+
+{% load string_filters %}
+
+
 {% block content %}
 <div class="container">
     <h1>СушиShop</h1>
+    <div class="content__container">
+        <h2>Добро пожаловать в СушиShop! 🍣</h2>
+        <p>СушиShop – это ваш надежный сервис доставки свежих и вкусных суши прямо к порогу вашего дома! 🏡</p>
+        <ul>
+            <li>🍱 Широкий ассортимент роллов и сетов на любой вкус.</li>
+            <li>⏱ Быстрая доставка – свежесть гарантирована.</li>
+            <li>🌟 Только качественные и свежие ингредиенты.</li>
+            <li>🎉 Специальные предложения и акции для наших клиентов.</li>
+        </ul>
+        <p>Заказывайте суши уже сегодня и наслаждайтесь лучшими вкусами прямо у себя дома! 🥢</p>
+    </div>
+
     <h2>Популярные товары</h2>
-    <div class="products">
+    <div class="products-grid">
         {% for product in popular_products %}
-        <div class="product">
-            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        <div class="product-card">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
             <h3>{{ product.name }}</h3>
-            <p>{{ product.price }} ₽</p>
-            <ul>
-                {% for line in product.description_lines %}
-                <li>{{ line }}</li>
+            <p class="product-price">{{ product.price }} ₽</p>
+            <ul class="product-description">
+                {% for item in product.description|split:" - " %}
+                <li>{{ item }}</li>
                 {% endfor %}
             </ul>
-            <a href="#" class="btn btn-primary">Добавить в корзину</a>
+            <form method="POST" action="{% url 'cart:add_to_cart' product.id %}">
+                {% csrf_token %}
+                <input type="number" name="quantity" value="1" min="1" class="product-quantity">
+                <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+            </form>
         </div>
         {% endfor %}
     </div>
-    <a href="{% url 'product_list' %}" class="btn btn-primary">В каталог</a>
 </div>
 {% endblock %}
