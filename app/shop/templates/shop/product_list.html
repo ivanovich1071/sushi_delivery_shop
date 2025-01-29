@@ -15,8 +15,8 @@
         <label for="sort">Сортировать по:</label>
         <select name="sort" id="sort" onchange="this.form.submit()">
             <option value="">Без сортировки</option>
-            <option value="price" {% if request.GET.sort =='price' %}selected{% endif %}>По возрастанию цены</option>
-            <option value="-price" {% if request.GET.sort =='-price' %}selected{% endif %}>По убыванию цены</option>
+            <option value="price" {% if request.GET.sort =="price" %}selected{% endif %}>По возрастанию цены</option>
+            <option value="-price" {% if request.GET.sort =="-price" %}selected{% endif %}>По убыванию цены</option>
         </select>
     </form>
 

@@ -17,7 +17,7 @@ def index(request):
 # Список продуктов
 class ProductListView(ListView):
     model = Product
-    template_name = 'shop/product_list.html'  # Убедитесь, что путь правильный
+    template_name = 'shop/product_list.html'  # Убедитесь, что здесь указан правильный путь
     context_object_name = 'products'
 
     def get_queryset(self):
