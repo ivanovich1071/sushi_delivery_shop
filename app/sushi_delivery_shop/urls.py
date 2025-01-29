@@ -21,8 +21,8 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('shop.urls')),  # Маршруты для приложения shop
-    path('cart/', include('cart.urls', namespace='cart')),  # Подключение cart с пространством имен
+    path('', include('shop.urls', namespace='shop')),  # shop как корневой
+    path('cart/', include('cart.urls', namespace='cart')),
 ]
 
 # Подключение статических и медиафайлов в режиме DEBUG

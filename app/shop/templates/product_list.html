@@ -1,57 +1,50 @@
-{% extends 'base.html' %}
-
-{% block breadcrumbs %}
-<div class="content__container">
-    <div class="breadcrumbs">
-        <a href="/">Главная</a>
-        <span>/</span>
-        <span>Меню</span>
-
-        <form method="get" class="sort">
-            <label for="sort">Сортировать по цене:</label>
-            <select name="sort" id="sort">
-                <option value="asc">По возрастанию</option>
-                <option value="desc">По убыванию</option>
-            </select>
-            <button type="submit">Применить</button>
-        </form>
-    </div>
-</div>
-{% endblock breadcrumbs %}
+{% extends 'shop/base.html' %}
+{% load string_filters %}
 
 {% block content %}
-<div class="content__container">
-    <div class="catalog__container">
+<div class="catalog-container">
+    <h1>Каталог товаров</h1>
+
+    <!-- Навигация -->
+    <div class="navigation">
+        <a href="{% url 'shop:index' %}" class="btn-secondary">На главную</a>
+    </div>
+
+    <!-- Форма сортировки -->
+    <form method="get" class="sort-form">
+        <label for="sort">Сортировать по:</label>
+        <select name="sort" id="sort" onchange="this.form.submit()">
+            <option value="">Без сортировки</option>
+            <option value="price" {% if request.GET.sort =='price' %}selected{% endif %}>По возрастанию цены</option>
+            <option value="-price" {% if request.GET.sort =='-price' %}selected{% endif %}>По убыванию цены</option>
+        </select>
+    </form>
+
+    <!-- Сетка товаров 2x2 -->
+    <div class="products-grid">
         {% for product in products %}
-        <div class="catalog__item">
-            <a class="catalog__item__header" href="{% url 'product_detail' pk=product.pk %}">
-                <h2>{{ product.name }}</h2>
+        <div class="product-card">
+            <a href="{% url 'shop:product_detail' product.id %}">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
             </a>
+            <h3>{{ product.name }}</h3>
+            <p class="product-price">Цена: {{ product.price }} ₽</p>
 
-            <a class="catalog__item__photo__container" href="{% url 'product_detail' pk=product.pk %}">
-                {% if product.image %}
-                <img class="catalog__item__photo" src="{{product.image.url}}" alt="{{ product.name }}">
-                {% endif %}
-            </a>
+            <!-- Описание товара списком -->
+            <ul class="product-description">
+                {% for item in product.description.split(' - ') %}
+                <li>{{ item }}</li>
+                {% endfor %}
+            </ul>
 
-            <div class="catalog__item__price">Цена: {{ product.price|floatformat:0 }} ₽</div>
-
-            <!-- Добавлено описание продукта -->
-            {% if product.description %}
-            <div class="catalog__item__description">
-                <p>{{ product.description }}</p>
-            </div>
-            {% endif %}
-
-            <!-- Добавлена возможность ввода количества -->
-            <form action="{% url 'cart:add_to_cart' product.pk %}" method="post">
+            <!-- Кнопка добавления в корзину -->
+            <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
                 {% csrf_token %}
-                <label for="quantity-{{ product.pk }}">Количество:</label>
-                <input type="number" id="quantity-{{ product.pk }}" name="quantity" value="1" min="1">
-                <button type="submit" class="btn btn-primary">Добавить в корзину</button>
+                <input type="number" name="quantity" value="1" min="1">
+                <button type="submit" class="btn-primary">Добавить в корзину</button>
             </form>
         </div>
         {% endfor %}
     </div>
 </div>
-{% endblock content %}
+{% endblock %}

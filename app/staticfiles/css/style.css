@@ -1,0 +1,88 @@
+/* Стили для сетки популярных товаров */
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-price {
+    font-size: 18px;
+    color: #ff5722;
+    margin: 8px 0;
+}
+
+.product-description {
+    font-size: 14px;
+    color: #757575;
+    margin-bottom: 12px;
+}
+
+.btn-primary {
+    background-color: #ff5722;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #e64a19;
+}
+
+/* Ваши существующие стили */
+body {
+    font-family: 'Roboto', sans-serif;
+    color: rgb(44, 14, 3);
+}
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #e45100;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+    background-color: #973704;
+    transform: translateY(-3px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+.navbar {
+    height: 60px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header__logo {
+    color: inherit;
+    text-decoration: inherit;
+    padding-left: 50px;
+    font-weight: 700;
+    font-size: 34px;
+    margin-bottom: 30px;
+}
+
+/* Убедитесь, что все остальные стили, которые были в вашем файле, остаются без изменений */

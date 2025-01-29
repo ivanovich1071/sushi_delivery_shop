@@ -1,32 +1,28 @@
-{% extends 'base.html' %}
-
-{% block breadcrumbs %}
-<div class="content__container">
-    <div class="breadcrumbs">
-        <a href="/">Главная</a>
-        <span>/</span>
-        <a href="{% url 'product_list' %}">Меню</a>
-        <span>/</span>
-        <span>{{ product.name }}</span>
-    </div>
-</div>
-{% endblock breadcrumbs %}
+{% extends 'shop/base.html' %}
+{% load string_filters %}
 
 {% block content %}
 <div class="product-detail">
-    {% if product.image %}
-    <img src="{{ product.image.url }}" alt="{{ product.name }}">
-    {% endif %}
-    <div class="product-detail__info">
-        <h2 class="product-detail__name">{{ product.name }}</h2>
-        <div class="product-detail__description">{{ product.description|linebreaksbr }}</div>
-        <div class="product-detail__price">Цена: {{ product.price|floatformat:0 }} ₽</div>
+    <h1>{{ product.name }}</h1>
+    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+    <p class="product-price">Цена: {{ product.price }} ₽</p>
 
-        <!-- Кнопка добавления в корзину -->
-        <form action="{% url 'cart:add_to_cart' product.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-primary">Добавить в корзину</button>
-        </form>
+    <h3>Описание:</h3>
+    <ul class="product-description">
+        {% for item in product.description.split(' - ') %}
+        <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+
+    <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
+        {% csrf_token %}
+        <label for="quantity">Количество:</label>
+        <input type="number" name="quantity" value="1" min="1">
+        <button type="submit" class="btn-primary">Добавить в корзину</button>
+    </form>
+
+    <div class="navigation">
+        <a href="{% url 'shop:product_list' %}" class="btn-secondary">Назад в каталог</a>
     </div>
 </div>
-{% endblock content %}
+{% endblock %}

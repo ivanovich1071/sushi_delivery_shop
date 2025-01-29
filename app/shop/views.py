@@ -1,9 +1,5 @@
 from django.shortcuts import render
-#from shop.models import Product
-#from app.shop.models import Product
 from .models import Product
-
-
 from django.views.generic import ListView, DetailView
 
 # Главная страница
@@ -12,7 +8,7 @@ def index(request):
     popular_products = Product.objects.filter(is_popular=True).order_by('-price')[:4]
     for product in popular_products:
         # Разбиваем описание на строки для отображения списком
-        product.description_lines = product.description.split('\n')
+        product.description_lines = product.description.split(' - ')  # Исправлено
     context = {
         'popular_products': popular_products,
     }
@@ -21,7 +17,7 @@ def index(request):
 # Список продуктов
 class ProductListView(ListView):
     model = Product
-    template_name = 'product_list.html'
+    template_name = 'shop/product_list.html'  # Убедитесь, что путь правильный
     context_object_name = 'products'
 
     def get_queryset(self):
@@ -37,5 +33,5 @@ class ProductListView(ListView):
 # Детальная информация о продукте
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'product_detail.html'
+    template_name = 'shop/product_detail.html'  # Убедитесь, что путь правильный
     context_object_name = 'product'
