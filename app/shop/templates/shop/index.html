@@ -20,21 +20,23 @@
 </div>
 
 <!-- Заголовок "Популярные товары" по центру -->
-    <h2 class="text-center" style="text-align: center; margin-top: 30px; margin-bottom: 20px; font-size: 24px; font-weight: bold;">
-        Популярные товары
-    </h2>
+<h2 class="text-center" style="text-align: center; margin-top: 30px; margin-bottom: 20px; font-size: 24px; font-weight: bold;">
+    Популярные товары
+</h2>
 
-
-<div class="products-grid" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+<!-- Карточки популярных товаров -->
+<div class="products-grid" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px;">
     {% for product in popular_products %}
-    <div class="product-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; max-width: 400px;">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" style="max-width: 100%; height: auto; border-radius: 8px;">
+    <div class="product-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; max-width: 350px;">
+        <a href="{% url 'shop:product_detail' product.id %}">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" style="max-width: 100%; height: auto; border-radius: 8px;">
+        </a>
         <h3>{{ product.name }}</h3>
         <p class="product-price" style="font-weight: bold;">Цена: {{ product.price }} ₽</p>
 
-        <!-- Описание товара -->
+        <!-- Описание товара списком -->
         <ul style="text-align: left; padding-left: 15px;">
-            {% for line in product.description_lines %}
+            {% for line in product.description.splitlines %}
             <li>{{ line }}</li>
             {% endfor %}
         </ul>
@@ -49,5 +51,6 @@
         </form>
     </div>
     {% endfor %}
+</div>
 </div>
 {% endblock %}
