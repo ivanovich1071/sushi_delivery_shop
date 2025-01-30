@@ -40,7 +40,7 @@ ROOT_URLCONF = 'sushi_delivery_shop.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'app', 'shop', 'templates')],  # <-- Проверь, что этот путь правильный
+        'DIRS': [os.path.join(BASE_DIR, 'app', 'shop', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -52,6 +52,7 @@ TEMPLATES = [
         },
     },
 ]
+
 WSGI_APPLICATION = 'sushi_delivery_shop.wsgi.application'
 
 # Database
@@ -84,11 +85,14 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

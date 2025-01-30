@@ -15,33 +15,35 @@
         <label for="sort">Сортировать по:</label>
         <select name="sort" id="sort" onchange="this.form.submit()">
             <option value="">Без сортировки</option>
-            <option value="price" {% if request.GET.sort =="price" %}selected{% endif %}>По возрастанию цены</option>
-            <option value="-price" {% if request.GET.sort =="-price" %}selected{% endif %}>По убыванию цены</option>
+            <option value="price" {% if request.GET.sort == "price" %}selected{% endif %}>По возрастанию цены</option>
+            <option value="-price" {% if request.GET.sort == "-price" %}selected{% endif %}>По убыванию цены</option>
         </select>
     </form>
 
     <!-- Сетка товаров 2x2 -->
-    <div class="products-grid">
+    <div class="products-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
         {% for product in products %}
-        <div class="product-card">
+        <div class="product-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center;">
             <a href="{% url 'shop:product_detail' product.id %}">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" style="max-width: 100%; height: auto;">
             </a>
             <h3>{{ product.name }}</h3>
             <p class="product-price">Цена: {{ product.price }} ₽</p>
 
             <!-- Описание товара списком -->
-            <ul class="product-description">
-                {% for item in product.description.split(' - ') %}
-                <li>{{ item }}</li>
-                {% endfor %}
+            <ul style="text-align: left;">
+               {% for item in product.description_list %}
+               <li>{{ item }}</li>
+               {% endfor %}
             </ul>
 
             <!-- Кнопка добавления в корзину -->
             <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
                 {% csrf_token %}
-                <input type="number" name="quantity" value="1" min="1">
-                <button type="submit" class="btn-primary">Добавить в корзину</button>
+                <input type="number" name="quantity" value="1" min="1" style="width: 50px;">
+                <button type="submit" class="btn-primary" style="background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                    Добавить в корзину
+                </button>
             </form>
         </div>
         {% endfor %}

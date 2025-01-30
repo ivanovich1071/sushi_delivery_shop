@@ -1,12 +1,11 @@
 {% extends 'shop/base.html' %}
 {% load static %}
-{% load string_filters %}
 
 {% block content %}
-<div class="hero-section">
+<div class="hero-section" style="text-align: center; max-width: 800px; margin: 0 auto;">
     <h1>Добро пожаловать в Sushi Delivery!</h1>
     <p>Заказывайте свежие суши и роллы с доставкой на дом!</p>
-    <ul>
+    <ul style="display: inline-block; text-align: left;">
         <li>📜 Широкий ассортимент роллов и сетов на любой вкус.</li>
         <li>⏱️ Быстрая доставка – свежесть гарантирована.</li>
         <li>🌟 Только качественные и свежие ингредиенты.</li>
@@ -16,29 +15,37 @@
 </div>
 
 <!-- Навигация -->
-<div class="menu-navigation">
-    <a href="{% url 'shop:product_list' %}">Перейти в каталог</a>
+<div class="menu-navigation" style="text-align: center; margin: 20px 0;">
+    <a href="{% url 'shop:product_list' %}" class="btn-secondary">Перейти в каталог</a>
 </div>
 
-<h2>Популярные товары</h2>
-<div class="products-grid">
-    {% for product in popular_products %}
-    <div class="product-card">
-        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
-        <h3>{{ product.name }}</h3>
-        <p class="product-price">Цена: {{ product.price }} ₽</p>
+<!-- Заголовок "Популярные товары" по центру -->
+    <h2 class="text-center" style="text-align: center; margin-top: 30px; margin-bottom: 20px; font-size: 24px; font-weight: bold;">
+        Популярные товары
+    </h2>
 
-        <!-- Описание товара списком -->
-        <ul class="product-description">
-            {% for item in product.description|split:" - " %}
-            <li>{{ item }}</li>
+
+<div class="products-grid" style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
+    {% for product in popular_products %}
+    <div class="product-card" style="border: 1px solid #ddd; padding: 15px; border-radius: 8px; text-align: center; max-width: 400px;">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image" style="max-width: 100%; height: auto; border-radius: 8px;">
+        <h3>{{ product.name }}</h3>
+        <p class="product-price" style="font-weight: bold;">Цена: {{ product.price }} ₽</p>
+
+        <!-- Описание товара -->
+        <ul style="text-align: left; padding-left: 15px;">
+            {% for line in product.description_lines %}
+            <li>{{ line }}</li>
             {% endfor %}
         </ul>
 
+        <!-- Кнопка добавления в корзину -->
         <form method="post" action="{% url 'cart:add_to_cart' product.id %}">
             {% csrf_token %}
-            <input type="number" name="quantity" value="1" min="1">
-            <button type="submit" class="btn-primary">Добавить в корзину</button>
+            <input type="number" name="quantity" value="1" min="1" style="width: 50px; text-align: center;">
+            <button type="submit" class="btn-primary" style="background-color: #4CAF50; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                Добавить в корзину
+            </button>
         </form>
     </div>
     {% endfor %}

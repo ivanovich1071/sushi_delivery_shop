@@ -1,9 +1,15 @@
 /* Стили для сетки популярных товаров */
+.hero-section,
 .products-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    margin-top: 20px;
+    margin: 0 auto; /* Центрирование по горизонтали */
+    max-width: 800px; /* Максимальная ширина */
+    text-align: center; /* Центрирование текста */
+}
+
+.products-grid {
+    display: flex;
+    flex-direction: column; /* Вытягивание в столбик */
+    gap: 20px; /* Отступы между карточками */
 }
 
 .product-card {
@@ -31,6 +37,12 @@
     font-size: 14px;
     color: #757575;
     margin-bottom: 12px;
+    list-style-type: none;
+    padding: 0;
+}
+
+.product-description li {
+    margin: 4px 0;
 }
 
 .btn-primary {
@@ -51,6 +63,7 @@ body {
     font-family: 'Roboto', sans-serif;
     color: rgb(44, 14, 3);
 }
+
 .button {
     display: inline-block;
     padding: 10px 20px;
@@ -84,5 +97,3 @@ body {
     font-size: 34px;
     margin-bottom: 30px;
 }
-
-/* Убедитесь, что все остальные стили, которые были в вашем файле, остаются без изменений */

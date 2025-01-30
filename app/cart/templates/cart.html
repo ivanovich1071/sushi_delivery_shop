@@ -1,5 +1,6 @@
 {% extends 'shop/base.html' %}
 {% load static %}
+{% load string_filters %}
 
 {% block content %}
 <div class="cart-container">
@@ -29,7 +30,15 @@
                     <td>
                         <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="cart-image">
                     </td>
-                    <td>{{ item.product.name }}</td>
+                    <td>
+                        <strong>{{ item.product.name }}</strong>
+                        <!-- Описание товара списком -->
+                        <ul class="product-description">
+                            {% for description_item in item.product.description|split:" - " %}
+                            <li>{{ description_item }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
                     <td>{{ item.product.price }} ₽</td>
                     <td>{{ item.quantity }}</td>
                     <td>{{ item.total_price }} ₽</td>

@@ -4,20 +4,18 @@ from django.views.generic import ListView, DetailView
 
 # Главная страница
 def index(request):
-    # Получаем список популярных продуктов, отсортированных по убыванию цены
+    # Получаем популярные продукты
     popular_products = Product.objects.filter(is_popular=True).order_by('-price')[:4]
-    for product in popular_products:
-        # Разбиваем описание на строки для отображения списком
-        product.description_lines = product.description.split(' - ')  # Исправлено
-    context = {
-        'popular_products': popular_products,
-    }
-    return render(request, 'shop/index.html', context)
 
+    # Разделяем описание каждого продукта на строки
+    for product in popular_products:
+        product.description_lines = product.description.split('\n')
+
+    return render(request, 'shop/index.html', {'popular_products': popular_products})
 # Список продуктов
 class ProductListView(ListView):
     model = Product
-    template_name = 'shop/product_list.html'  # Убедитесь, что здесь указан правильный путь
+    template_name = 'shop/product_list.html'  # Убедитесь, что путь правильный
     context_object_name = 'products'
 
     def get_queryset(self):
@@ -30,6 +28,13 @@ class ProductListView(ListView):
             queryset = queryset.order_by('-price')
         return queryset
 
+    def get_context_data(self, **kwargs):
+        # Добавляем в контекст обработанные данные
+        context = super().get_context_data(**kwargs)
+        for product in context['products']:
+            # Разбиваем описание на список строк
+            product.description_list = product.description.split(',') if product.description else []
+        return context
 # Детальная информация о продукте
 class ProductDetailView(DetailView):
     model = Product
